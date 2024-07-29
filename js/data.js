@@ -1,10 +1,8 @@
 import {getRandomInteger, getRandomArrayElement,createIdGenerator} from './util.js';
 
-const MIN_PHOTO_ID = 1;
+
 const MAX_PHOTO_ID = 25;
 
-const MIN_URL = 1;
-const MAX_URL = 25;
 
 const MIN_LIKES = 15;
 const MAX_LIKES = 200;
@@ -51,7 +49,7 @@ const generateRandomId = createIdGenerator();
 
 function createMessage() {
   const numberOfMessages = getRandomInteger(1, 2);
-  let messages = [];
+  const messages = [];
   for (let i = 0; i < numberOfMessages; i++) {
     messages.push(getRandomArrayElement(MESSAGES));
   }
