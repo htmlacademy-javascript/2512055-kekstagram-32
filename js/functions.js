@@ -1,17 +1,14 @@
-function isStringLengthValid(string, maxLength) {
-  return string.length <= maxLength;
-}
+// Функция для проверки длины строки
+//const checkLengthString = (string, maxLength) => string.length <= maxLength;
 
-//проверка на палиндром
-function isPalindrome(string) {
-  const normilizedString = string.replaceAll(' ', '').toLowerCase();
-  let reversedString = '';
-  for (let i = normilizedString.length - 1; i >= 0; i--) {
+//checkLengthString();
 
-    reversedString+= normilizedString.charAt(i);
+// Функция для проверки, является ли строка палиндромом
+//const isPalindrome = (string) => {
+//const cleaned = string.replaceAll(' ', '').toLowerCase();
+//const normalizeString = cleaned.split('').reverse().join('');
 
-  }
+//return cleaned === normalizeString;
+//};
 
-  return (reversedString === normilizedString)
-
-}
+//isPalindrome();
