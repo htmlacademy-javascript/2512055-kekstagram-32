@@ -1,11 +1,13 @@
-import { generateThumbnails } from '.thumbnail.js';
+import { generateThumbnails } from './thumbnail.js';
 import {showBigPicture} from './big-picture.js';
 
 const container = document.querySelector('.pictures');
 
 const generateGallery = (pictures) => {
   container.addEventListener('click', (evt) => {
-    const thumbnail = evt.target.closet (['data-thumbnail-id']);
+    const thumbnail = evt.target.closest(['data-thumbnail-id']);
+    // eslint-disable-next-line no-console
+    console.log(thumbnail);
     if (!thumbnail) {
       return;
     }
