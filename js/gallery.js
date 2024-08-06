@@ -5,9 +5,8 @@ const container = document.querySelector('.pictures');
 
 const generateGallery = (pictures) => {
   container.addEventListener('click', (evt) => {
-    const thumbnail = evt.target.closest(['data-thumbnail-id']);
-    // eslint-disable-next-line no-console
-    console.log(thumbnail);
+    const thumbnail = evt.target.closest('.picture__img');
+
     if (!thumbnail) {
       return;
     }

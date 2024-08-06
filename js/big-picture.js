@@ -79,6 +79,7 @@ const showBigPicture = (data) => {
 
   renderPictureDetails(data);
   comments = data.comments;
+
   if(comments.length > 0) {
     renderComments();
   }
