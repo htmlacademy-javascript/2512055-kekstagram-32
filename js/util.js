@@ -1,22 +1,14 @@
-function getRandomInteger(a, b) {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-}
+const ALERT_SHOW_TIME = 5000;
 
-function getRandomArrayElement(items) {
-  return items[getRandomInteger(0, items.length - 1)];
-}
+const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
 
-function createIdGenerator() {
-  let numberId = 0;
-  return function() {
-    numberId += 1;
-    return numberId;
-  };
-}
+const showAlert = () => {
+  const dataErrorElement = dataErrorTemplate.cloneNode(true);
+  document.body.append(dataErrorElement);
 
+  setTimeout(() => {
+    dataErrorElement.remove();
+  }, ALERT_SHOW_TIME);
+};
 
-export {getRandomInteger, getRandomArrayElement,createIdGenerator};
-
+export {showAlert};
