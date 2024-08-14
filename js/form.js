@@ -12,6 +12,10 @@ const ErrorText = {
   NOT_UNIQUE: 'Хэштег должен быть уникальным',
   INVALID_PATTERN: 'Неправильный хэштег',
 };
+const submitButtonText = {
+  IDLE: 'Опубликовать',
+  SUBMITTING: 'Отправляю...'
+};
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
@@ -20,6 +24,7 @@ const cancelButton = form.querySelector('.img-upload__cancel');
 const fileField = form.querySelector('.img-upload__input');
 const hashtagField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -42,6 +47,10 @@ const hideModal = () => {
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 };
+const toggleSubmitButton = (isDisabled) => {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = isDisabled ? submitButtonText.SUBMITTING : submitButtonText.IDLE;
+};
 
 const isTextFieldFocused = () =>
   document.activeElement === hashtagField ||
@@ -58,9 +67,10 @@ const hasUniqueTags = (value) => {
   const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase());
   return lowerCaseTags.length === new Set (lowerCaseTags).size;
 };
+const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
 
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape' && !isTextFieldFocused()) {
+  if (evt.key === 'Escape' && !isTextFieldFocused() && !isErrorMessageShown()) {
     evt.preventDefault();
     hideModal();
   }
@@ -74,9 +84,17 @@ const onFileInputChange = () => {
   showModal();
 };
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  pristine.validate();
+const setOnFormSubmit = (callback) => {
+  form.addEventListener('submit', async(evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if(isValid) {
+      toggleSubmitButton(true);
+      await callback(new FormData(form));
+      toggleSubmitButton();
+    }
+  });
 };
 
 pristine.addValidator(
@@ -103,5 +121,6 @@ pristine.addValidator(
 
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
-form.addEventListener('submit', onFormSubmit);
 initEffect();
+
+export {setOnFormSubmit, hideModal};
