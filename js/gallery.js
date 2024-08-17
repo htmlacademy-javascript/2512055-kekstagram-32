@@ -24,4 +24,5 @@ const generateGallery = (currentPictures) => {
   container.addEventListener('click', onContainerClick);
 };
 
+
 export{generateGallery};
