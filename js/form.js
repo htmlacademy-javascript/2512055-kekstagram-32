@@ -4,7 +4,7 @@ import {
   reset as resetEffect
 } from './effect.js';
 
-
+const EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif'];
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
@@ -20,6 +20,7 @@ const submitButtonText = {
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
+const formImagePreview = form.querySelector('img');
 const overlay = form.querySelector('.img-upload__overlay');
 const cancelButton = form.querySelector('.img-upload__cancel');
 const fileField = form.querySelector('.img-upload__input');
@@ -87,6 +88,19 @@ function onDocumentKeydown(evt) {
   }
 }
 
+const displayImage = () => {
+  const file = fileField.files[0];
+  const fileName = file.name.toLowerCase();
+  const check = EXTENSIONS.some((format)=>fileName.endsWith(format));
+  if (check) {
+    const filtersPreviews = form.querySelectorAll('.effects__preview');
+    formImagePreview.src = URL.createObjectURL(file);
+    filtersPreviews.forEach((item)=>{
+      item.style = `background-image:url('${formImagePreview.src}')`;
+    });
+  }
+};
+
 const onCancelButtonClick = () => {
   hideModal();
 };
@@ -101,6 +115,7 @@ const onFileInputChange = () => {
     });
   }
   showModal();
+  displayImage();
 };
 
 const setOnFormSubmit = (callback) => {
@@ -115,6 +130,7 @@ const setOnFormSubmit = (callback) => {
     }
   });
 };
+
 
 pristine.addValidator(
   hashtagField,
